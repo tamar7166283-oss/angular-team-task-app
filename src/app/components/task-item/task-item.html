@@ -1,0 +1,12 @@
+<div class="mini-task-card" [routerLink]="[task().id]">
+  <div class="task-main-info">
+    <span class="status-indicator" [attr.data-status]="task().status"></span>
+    <span class="task-title">{{ task().title }}</span>
+  </div>
+  
+<div class="task-meta">
+  <span class="priority-badge" [class]="task().priority">{{ task().priority }}</span>
+  <span class="view-link">Details →</span>
+  <button class="btn-icon-delete" (click)="onDelete($event)">🗑️</button>
+</div>
+</div>

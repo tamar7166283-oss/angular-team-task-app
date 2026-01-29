@@ -1,0 +1,49 @@
+<div class="tasks-layout">
+  <div class="tasks-wrapper">
+    <header class="tasks-header">
+      <div class="header-content">
+        <h2>Project Tasks #{{ projectId() }}</h2>
+        <button class="btn-add" (click)="openAddModal()">
+          + Add New Task
+        </button>
+      </div>
+    </header>
+
+    @if (isLoading()) {
+      <div class="status-message loading">
+        <div class="spinner"></div>
+        <p>Loading tasks...</p>
+      </div>
+    } @else if (errorMessage()) {
+      <div class="status-message error">
+        <p>{{ errorMessage() }}</p>
+        <button (click)="loadData()" class="btn-retry">Try Again</button>
+      </div>
+    } @else {
+      <div class="tasks-container">
+        @for (task of tasks(); track task.id) {
+          <app-task-item 
+            [task]="task"
+            (delete)="handleDelete($event)">
+          </app-task-item>
+        } @empty {
+          <div class="status-message empty">
+            <p>No tasks found. Start by adding one!</p>
+          </div>
+        }
+      </div>
+    }
+
+    @if (isModalOpen()) {
+      <app-task-form 
+        [projectId]="numericProjectId()"
+        [taskToEdit]="null" 
+        (close)="isModalOpen.set(false)">
+      </app-task-form>
+    }
+  </div>
+
+  <aside class="task-details-sidebar">
+    <router-outlet></router-outlet>
+  </aside>
+</div>

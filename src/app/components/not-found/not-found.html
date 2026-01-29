@@ -1,0 +1,14 @@
+<div class="not-found-wrapper">
+  <div class="content">
+    <mat-icon class="error-icon">search_off</mat-icon>
+    <h1>Page Not Found</h1>
+    <p>Sorry, we couldn't find the page you're looking for.</p>
+    
+    <div class="actions">
+      <button mat-flat-button color="primary" [routerLink]="authService.isAuthenticated() ? '/projects' : '/login'">
+        <mat-icon>arrow_back</mat-icon>
+        Back to Safety
+      </button>
+    </div>
+  </div>
+</div>

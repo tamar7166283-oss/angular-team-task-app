@@ -1,0 +1,58 @@
+<div class="comments-wrapper">
+  <h3>Discussion</h3>
+
+  <div class="add-comment-container">
+    <textarea 
+      [(ngModel)]="newCommentBody" 
+      [disabled]="isSubmitting()" 
+      placeholder="Write a comment..."
+      class="comment-input">
+    </textarea>
+    <div class="action-row">
+      <button 
+        class="btn-add" 
+        (click)="onSubmit()" 
+        [disabled]="isSubmitting() || !newCommentBody().trim()">
+        {{ isSubmitting() ? 'Posting...' : 'Post Comment' }}
+      </button>
+    </div>
+  </div>
+
+  @if (isLoading()) {
+    <div class="status-message loading">
+      <div class="spinner"></div>
+      <p>Loading conversation...</p>
+    </div>
+  }
+
+  <div class="comments-list">
+    @for (comment of comments(); track comment.id) {
+      <article class="comment-card">
+        <div class="comment-header">
+          <span class="author">{{ comment.author_name }}</span>
+          <span class="date">{{ comment.created_at | date:'dd/MM/yyyy HH:mm' }}</span>
+        </div>
+        
+        <div class="comment-content">
+          <p>{{ comment.body }}</p>
+        </div>
+
+        <div class="comment-footer">
+          <small>User ID: #{{ comment.user_id }}</small>
+        </div>
+      </article>
+    } @empty {
+      @if (!isLoading()) {
+        <div class="status-message empty">
+          <p>No comments yet. Start the conversation!</p>
+        </div>
+      }
+    }
+  </div>
+
+  @if (errorMessage()) {
+    <div class="status-message error">
+      <p>{{ errorMessage() }}</p>
+    </div>
+  }
+</div>

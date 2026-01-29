@@ -1,0 +1,45 @@
+<div class="add-team-container">
+  <h3>Create New Team</h3>
+  
+  <form [formGroup]="teamForm" (ngSubmit)="onSubmit()">
+    
+    <div class="form-control">
+      <label for="teamName">Team Name</label>
+      <input 
+        id="teamName" 
+        type="text" 
+        formControlName="name" 
+        placeholder="Enter team name"
+      >
+
+      @if (teamForm.get('name')?.touched) {
+        @if (teamForm.get('name')?.errors?.['required']) {
+          <p class="error">Team name is required</p>
+        }
+        @if (teamForm.get('name')?.errors?.['minlength']) {
+          <p class="error">Name must be at least 3 characters</p>
+        }
+        @if (teamForm.get('name')?.errors?.['maxlength']) {
+          <p class="error">Name cannot exceed 20 characters</p>
+        }
+      }
+    </div>
+
+    @if (errorMessage()) {
+      <div class="alert-error">
+        {{ errorMessage() }}
+      </div>
+    }
+
+    <div class="form-actions">
+      <button type="submit" [disabled]="teamForm.invalid || isLoading()">
+        {{ isLoading() ? 'Creating...' : 'Create Team' }}
+      </button>
+
+      <button type="button" (click)="close.emit()">
+        Cancel
+      </button>
+    </div>
+
+  </form>
+</div>

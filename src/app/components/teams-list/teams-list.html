@@ -1,0 +1,43 @@
+<div class="teams-container">
+  <h1>my teams</h1>
+
+  @if (errorMessage()) {
+    <p>{{ errorMessage() }}</p>
+    <button (click)="this.teamsService.loadTeams()">try again</button>
+  }
+
+  <button (click)="showAddTeam.set(true)">+ add new team</button>
+
+  @if (showAddTeam()) {
+    <app-add-team (close)="showAddTeam.set(false)"></app-add-team>
+  }
+
+  @if (selectedTeamId(); as id) {
+    <div class="modal-overlay">
+      <app-add-member 
+        [teamId]="id" 
+        (close)="selectedTeamId.set(null)">
+      </app-add-member>
+    </div>
+  }
+
+  @if (isLoading()) {
+    <div class="loader">loading....</div>
+  } @else {
+    @for (team of teamsService.teams(); track team.id) {
+      <div class="card">
+        <h3>{{ team.name }}</h3>
+        <p>Members: {{ team.members_count }}</p>
+        <button [routerLink]="['/teams', team.id, 'projects']" class="btn-primary">
+  View Projects
+</button>
+        <button (click)="selectedTeamId.set(team.id)">Add Member</button>
+      </div>
+    } 
+    @empty {
+      @if(!errorMessage()) {
+        <p>there are no teams to show</p>
+      }
+    }
+  }
+</div>

@@ -8,3 +8,8 @@ export interface Team {
 export interface CreateTeamPayload {
   name: string;
 }
+
+export interface AddMember{
+  userId:number,
+  role:string
+}

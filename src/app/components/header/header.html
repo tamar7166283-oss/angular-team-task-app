@@ -1,0 +1,30 @@
+<header class="main-header">
+  <div class="nav-section">
+    <span class="logo">TeamTasks</span>
+    <nav>
+      <a routerLink="/projects" routerLinkActive="active">projects</a>
+      <a routerLink="/teams" routerLinkActive="active">teams</a>
+    </nav>
+  </div>
+
+  <div class="actions-section">
+    <button (click)="themeService.toggleTheme()" class="icon-btn">
+      {{ themeService.darkMode() ? '☀️' : '🌙' }}
+    </button>
+
+    <div class="user-profile" (click)="isProfileOpen = !isProfileOpen">
+      <div class="avatar">
+        {{ authService.currentUser()?.name?.[0] }}
+      </div>
+      
+      @if (isProfileOpen) {
+        <div class="dropdown">
+          <p class="user-name">{{ authService.currentUser()?.name }}</p>
+          <p class="user-email">{{ authService.currentUser()?.email }}</p>
+          <hr>
+          <button (click)="logout()">logout</button>
+        </div>
+      }
+    </div>
+  </div>
+</header>

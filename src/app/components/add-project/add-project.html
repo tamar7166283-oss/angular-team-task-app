@@ -1,0 +1,64 @@
+<div class="add-project-container">
+  <h3>Create New Project</h3>
+  
+  <form [formGroup]="projectForm" (ngSubmit)="submit()">
+    
+    <div class="form-control">
+      <label for="projectName">Project Name</label>
+      <input 
+        id="projectName" 
+        type="text" 
+        formControlName="name" 
+        placeholder="Enter project name"
+      >
+
+      @if (projectForm.get('name')?.touched) {
+        @if (projectForm.get('name')?.errors?.['required']) {
+          <p class="error">Project name is required</p>
+        }
+        @if (projectForm.get('name')?.errors?.['minlength']) {
+          <p class="error">Name must be at least 3 characters</p>
+        }
+        @if (projectForm.get('name')?.errors?.['maxlength']) {
+          <p class="error">Name cannot exceed 30 characters</p>
+        }
+      }
+    </div>
+
+    <div class="form-control">
+      <label for="projectDescription">Description</label>
+      <textarea 
+        id="projectDescription" 
+        formControlName="description" 
+        placeholder="Enter project description"
+        rows="3"
+      ></textarea>
+
+      @if (projectForm.get('description')?.touched) {
+        @if (projectForm.get('description')?.errors?.['required']) {
+          <p class="error">Description is required</p>
+        }
+        @if (projectForm.get('description')?.errors?.['maxlength']) {
+          <p class="error">Description cannot exceed 200 characters</p>
+        }
+      }
+    </div>
+
+    @if (errorMessage()) {
+      <div class="alert-error">
+        {{ errorMessage() }}
+      </div>
+    }
+
+    <div class="form-actions">
+      <button type="submit" [disabled]="projectForm.invalid || isLoading()">
+        {{ isLoading() ? 'Creating...' : 'Create Project' }}
+      </button>
+
+      <button type="button" (click)="onClose()">
+        Cancel
+      </button>
+    </div>
+
+  </form>
+</div>

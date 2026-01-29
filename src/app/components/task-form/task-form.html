@@ -1,0 +1,77 @@
+<div class="modal-backdrop" (click)="close.emit()">
+  <div class="modal-card" (click)="$event.stopPropagation()">
+    
+    <header class="modal-header">
+      <h2>{{ taskToEdit() ? 'Edit Task' : 'New Task' }}</h2>
+      <button class="close-x" (click)="close.emit()" [disabled]="isLoading()">×</button>
+    </header>
+
+    <form [formGroup]="taskForm" (ngSubmit)="onSubmit()">
+      
+      @if (errorMessage()) {
+        <div class="error-banner">
+          ⚠️ {{ errorMessage() }}
+        </div>
+      }
+
+      <div class="field">
+        <label>Task Title *</label>
+        <input type="text" formControlName="title" placeholder="Enter task title">
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <label>Status</label>
+          <select formControlName="status">
+            <option value="todo">To Do</option>
+            <option value="in_progress">In Progress</option>
+            <option value="done">Done</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Priority</label>
+          <select formControlName="priority">
+            <option value="low">Low</option>
+            <option value="normal">Normal</option>
+            <option value="high">High</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Description *</label>
+        <textarea formControlName="description" rows="3"></textarea>
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <label>Due Date</label>
+          <input type="date" formControlName="dueDate">
+        </div>
+        <div class="field">
+          <label>Assignee ID</label>
+          <input type="number" formControlName="assigneeId">
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Order Index</label>
+        <input type="number" formControlName="orderIndex">
+      </div>
+
+      <footer class="modal-actions">
+        <button type="button" class="btn-secondary" (click)="close.emit()" [disabled]="isLoading()">
+          Cancel
+        </button>
+        
+        <button type="submit" class="btn-primary" [disabled]="taskForm.invalid || isLoading()">
+          @if (isLoading()) {
+            <span>Saving...</span> } @else {
+            {{ taskToEdit() ? 'Save Changes' : 'Create Task' }}
+          }
+        </button>
+      </footer>
+
+    </form>
+  </div>
+</div>

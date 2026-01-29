@@ -1,0 +1,57 @@
+<div class="add-member-wrapper">
+  <h4 class="form-title">הוספת חבר לצוות</h4>
+
+  <form [formGroup]="memberForm" (ngSubmit)="onSubmit()">
+    
+    <div class="form-field">
+      <label for="userId">userId</label>
+      <input 
+       id="userId"
+        type="number" 
+        formControlName="userId" 
+        placeholder="Enter user id"
+        [class.error-border]="memberForm.get('userId')?.invalid && memberForm.get('userId')?.touched"
+      >
+      @if (memberForm.get('userId')?.invalid && memberForm.get('userId')?.touched) {
+        <small class="error-msg">userId is required</small>
+      }
+    </div>
+
+    <div class="form-field">
+      <label for="role">role</label>
+      <input 
+      id="role"
+        type="text" 
+        formControlName="role" 
+        [class.error-border]="memberForm.get('role')?.invalid && memberForm.get('role')?.touched"
+      >
+      @if (memberForm.get('role')?.invalid && memberForm.get('role')?.touched) {
+        <small class="error-msg">role is required</small>
+      }
+    </div>
+
+    @if (errorMessage()) {
+      <div class="alert-danger">
+        {{ errorMessage() }}
+      </div>
+    }
+
+    <div class="button-group">
+      <button 
+        type="submit" 
+        class="btn-submit" 
+        [disabled]="memberForm.invalid"
+      >
+        add
+      </button>
+
+      <button 
+        type="button" 
+        class="btn-cancel" 
+        (click)="closeAddMember()"
+      >
+        cancel
+      </button>
+    </div>
+  </form>
+</div>

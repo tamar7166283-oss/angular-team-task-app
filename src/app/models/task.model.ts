@@ -3,14 +3,16 @@ export type TaskPriority = 'low' | 'normal' | 'high';
 
 export interface Task {
   id: number;
-  projectId: number;
+  project_id: number;
   title: string;
   description: string;
   status: TaskStatus;
   priority: TaskPriority;
-  assigneeId?: number;
-  dueDate?: string;
-  orderIndex: number;
+  assignee_id?: number;
+  due_date?: string;
+  order_index: number;
+  created_at: string;
+  updated_at: string;
 }
 
 export interface CreateTaskPayload {
@@ -21,4 +23,5 @@ export interface CreateTaskPayload {
   priority: TaskPriority;
   assigneeId?: number;
   dueDate?: string;
+  orderIndex: number;
 }

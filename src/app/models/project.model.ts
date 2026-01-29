@@ -6,8 +6,7 @@ export interface Project {
   status: string;
   created_at: string;
 }
-
-// כשיוצרים פרויקט - חייבים לשייך אותו לצוות
+    
 export interface CreateProjectPayload {
   teamId: number;
   name: string;

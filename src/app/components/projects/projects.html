@@ -1,0 +1,55 @@
+<div class="projects-wrapper">
+  <header class="projects-header">
+    <div class="header-content">
+    <h2>{{ title() }}</h2>
+      @if (teamId()) {
+        <button class="btn-add" (click)="isModalOpen.set(true)">
+          + add new project
+        </button>
+      }
+    </div>
+  </header>
+
+  @if (isLoading()) {
+    <div class="status-message loading">
+      <div class="spinner"></div>
+      <p>loading...</p>
+    </div>
+  }
+
+  @else if (errorMessage()) {
+    <div class="status-message error">
+      <p>{{ errorMessage() }}</p>
+      <button (click)="loadData()" class="btn-retry">try again</button>
+    </div>
+  }
+
+  @else {
+    <div class="projects-grid">
+      @for (project of filteredProjects(); track project.id) {
+        <article class="project-card">
+          <div class="project-info">
+            <h3>{{ project.name }}</h3>
+            <p>{{ project.description }}</p>
+          </div>
+          <div class="project-footer">
+            <span class="date">created: {{ project.created_at | date:'dd/MM/yyyy' }}</span>
+          </div>
+          <button [routerLink]="['/projects', project.id, 'tasks']">
+            View Tasks
+          </button>
+        </article>
+      } @empty {
+        <div class="status-message empty">
+          <p>no projects found</p>
+        </div>
+      }
+    </div>
+  }
+@if (isModalOpen() && teamId(); as id) {
+    <app-add-project 
+      [teamId]="id" 
+      (close)="isModalOpen.set(false)">
+    </app-add-project>
+  }
+</div>
