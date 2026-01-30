@@ -1,0 +1,117 @@
+.comments-section-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.discussion-timeline {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+}
+
+/* עיצוב התגובה */
+.comment-row {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.comment-avatar {
+  width: 32px;
+  height: 32px;
+  background: #7b68ee10;
+  color: #7b68ee;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.comment-bubble {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  padding: 10px 14px;
+  border-radius: 0 16px 16px 16px;
+  max-width: 85%;
+}
+
+.comment-info {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+
+.author-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.time-dot { color: #cbd5e1; font-size: 10px; }
+
+.timestamp { font-size: 11px; color: #94a3b8; }
+
+.comment-text p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #475569;
+  word-wrap: break-word;
+}
+
+/* אזור ההקלדה - פה התיקון הקריטי */
+.composer-container {
+  padding: 16px;
+  border-top: 1px solid #f1f5f9;
+  background: white;
+}
+
+.custom-input-wrapper {
+  display: flex;
+  align-items: flex-end; /* הכפתור יישאר למטה כשהטקסט גדל */
+  background: #f1f5f9;
+  border-radius: 12px;
+  padding: 8px 12px;
+  gap: 8px;
+  border: 1px solid transparent;
+  transition: all 0.2s;
+}
+
+.custom-input-wrapper:focus-within {
+  background: white;
+  border-color: #7b68ee;
+  box-shadow: 0 0 0 3px rgba(123, 104, 238, 0.1);
+}
+
+.native-textarea {
+  flex: 1;
+  border: none;
+  background: transparent;
+  outline: none;
+  font-family: inherit;
+  font-size: 14px;
+  padding: 4px 0;
+  margin: 0;
+  resize: none;
+  max-height: 150px; /* גובה מקסימלי לפני גלילה */
+  line-height: 1.5;
+  color: #1e293b;
+}
+
+.send-icon-btn {
+  background: transparent;
+  border: none;
+  color: #7b68ee;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  transition: transform 0.2s;
+}
+
+.send-icon-btn:disabled { color: #cbd5e1; }
+.send-icon-btn:not(:disabled):hover { transform: scale(1.1); }

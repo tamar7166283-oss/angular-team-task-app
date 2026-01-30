@@ -1,58 +1,55 @@
-<div class="comments-wrapper">
-  <h3>Discussion</h3>
+<div class="comments-section-container">
+  
+  <div class="discussion-timeline">
+    @if (isLoading()) {
+      <div class="loading-state">
+        <mat-spinner diameter="24"></mat-spinner>
+      </div>
+    }
 
-  <div class="add-comment-container">
-    <textarea 
-      [(ngModel)]="newCommentBody" 
-      [disabled]="isSubmitting()" 
-      placeholder="Write a comment..."
-      class="comment-input">
-    </textarea>
-    <div class="action-row">
+    <div class="comments-scroll-area">
+      @for (comment of comments(); track comment.id) {
+        <article class="comment-row">
+          <div class="comment-avatar">
+            <mat-icon>person</mat-icon>
+          </div>
+          
+          <div class="comment-bubble">
+            <div class="comment-info">
+              <span class="author-name">{{ comment.author_name || 'Team Member' }}</span>
+              <span class="time-dot">•</span>
+              <span class="timestamp">{{ comment.created_at | date:'HH:mm' }}</span>
+            </div>
+            <div class="comment-text">
+              <p>{{ comment.body }}</p>
+            </div>
+          </div>
+        </article>
+      } @empty {
+        @if (!isLoading()) {
+          <div class="empty-state">No messages yet. Start the discussion!</div>
+        }
+      }
+    </div>
+  </div>
+
+  <div class="composer-container">
+    <div class="custom-input-wrapper">
+      <textarea 
+        [(ngModel)]="newCommentBody" 
+        [disabled]="isSubmitting()" 
+        placeholder="Type your message..."
+        class="native-textarea"
+        rows="1"
+        (input)="adjustHeight($event)">
+      </textarea>
+      
       <button 
-        class="btn-add" 
+        class="send-icon-btn"
         (click)="onSubmit()" 
         [disabled]="isSubmitting() || !newCommentBody().trim()">
-        {{ isSubmitting() ? 'Posting...' : 'Post Comment' }}
+        <mat-icon>{{ isSubmitting() ? 'sync' : 'send' }}</mat-icon>
       </button>
     </div>
   </div>
-
-  @if (isLoading()) {
-    <div class="status-message loading">
-      <div class="spinner"></div>
-      <p>Loading conversation...</p>
-    </div>
-  }
-
-  <div class="comments-list">
-    @for (comment of comments(); track comment.id) {
-      <article class="comment-card">
-        <div class="comment-header">
-          <span class="author">{{ comment.author_name }}</span>
-          <span class="date">{{ comment.created_at | date:'dd/MM/yyyy HH:mm' }}</span>
-        </div>
-        
-        <div class="comment-content">
-          <p>{{ comment.body }}</p>
-        </div>
-
-        <div class="comment-footer">
-          <small>User ID: #{{ comment.user_id }}</small>
-        </div>
-      </article>
-    } @empty {
-      @if (!isLoading()) {
-        <div class="status-message empty">
-          <p>No comments yet. Start the conversation!</p>
-        </div>
-      }
-    }
-  </div>
-
-  @if (errorMessage()) {
-    <div class="status-message error">
-      <p>{{ errorMessage() }}</p>
-    </div>
-  }
 </div>

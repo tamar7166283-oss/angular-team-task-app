@@ -4,9 +4,19 @@ import { CommonModule } from '@angular/common';
 import { AddProject } from "../add-project/add-project";
 import { RouterLink } from '@angular/router';
 
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+
 @Component({
   selector: 'app-projects',
-  imports: [CommonModule, AddProject,RouterLink],
+  imports: [CommonModule, AddProject,RouterLink,
+    MatCardModule,
+    MatButtonModule,
+    MatIconModule,
+    MatProgressSpinnerModule
+  ],
   templateUrl: './projects.html',
   styleUrl: './projects.css',
 })
@@ -40,6 +50,11 @@ filteredProjects = computed(() => {
       }
     });
   }
+
+  getProjectColor(index: number): string {
+  const colors = ['#7b68ee', '#3ecad1', '#ff7063', '#ffb300', '#4caf50'];
+  return colors[index % colors.length];
+}
 }
 
 

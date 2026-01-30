@@ -2,11 +2,19 @@ import { Component, inject, input, signal, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CommentService } from '../../services/comment-service';
+import {MatIconModule} from '@angular/material/icon';
+import {MatButtonModule} from '@angular/material/button';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {TextFieldModule} from '@angular/cdk/text-field';
 
 @Component({
   selector: 'app-task-comments',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule,MatIconModule, 
+    MatButtonModule, MatFormFieldModule, MatInputModule 
+    ,MatProgressSpinnerModule,TextFieldModule],
   templateUrl: './task-comments.html',
   styleUrl: './task-comments.css'
 })
@@ -57,5 +65,11 @@ onSubmit() {
       this.errorMessage.set(err.status === 400 ? 'Invalid request' : 'Server error');
     }
   });
+}
+
+adjustHeight(event: any) {
+  const textarea = event.target;
+  textarea.style.height = 'auto'; 
+  textarea.style.height = textarea.scrollHeight + 'px'; 
 }
 }

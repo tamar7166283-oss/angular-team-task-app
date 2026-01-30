@@ -3,10 +3,15 @@ import { ProjectService } from '../../services/project-service';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CreateProjectPayload } from '../../models/project.model';
 
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+
 @Component({
   selector: 'app-add-project',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [[ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatIconModule]],
   templateUrl: './add-project.html',
   styleUrl: './add-project.css',
 })

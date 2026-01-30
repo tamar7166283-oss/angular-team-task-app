@@ -1,74 +1,98 @@
-<div class="modal-backdrop" (click)="close.emit()">
-  <div class="modal-card" (click)="$event.stopPropagation()">
+<div class="modal-overlay" (click)="close.emit()">
+  <div class="modal-card animate-in" (click)="$event.stopPropagation()">
     
     <header class="modal-header">
-      <h2>{{ taskToEdit() ? 'Edit Task' : 'New Task' }}</h2>
-      <button class="close-x" (click)="close.emit()" [disabled]="isLoading()">×</button>
+      <div class="icon-box">
+        <mat-icon>{{ taskToEdit() ? 'edit_note' : 'add_task' }}</mat-icon>
+      </div>
+      <div class="header-text">
+        <h2>{{ taskToEdit() ? 'Edit Task' : 'Create New Task' }}</h2>
+        <p>Project #{{ projectId() }} Workspace</p>
+      </div>
+      <button mat-icon-button (click)="close.emit()" class="close-x">
+        <mat-icon>close</mat-icon>
+      </button>
     </header>
 
-    <form [formGroup]="taskForm" (ngSubmit)="onSubmit()">
+    <form [formGroup]="taskForm" (ngSubmit)="onSubmit()" class="modal-form">
       
       @if (errorMessage()) {
         <div class="error-banner">
-          ⚠️ {{ errorMessage() }}
+          <mat-icon>error_outline</mat-icon>
+          <span>{{ errorMessage() }}</span>
         </div>
       }
 
-      <div class="field">
-        <label>Task Title *</label>
-        <input type="text" formControlName="title" placeholder="Enter task title">
+      <div class="field-wrapper">
+        <span class="field-label">Task Title</span>
+        <mat-form-field appearance="outline" class="custom-field">
+          <mat-icon matPrefix>title</mat-icon>
+          <input matInput formControlName="title" placeholder="What needs to be done?">
+        </mat-form-field>
       </div>
 
-      <div class="row">
-        <div class="field">
-          <label>Status</label>
-          <select formControlName="status">
-            <option value="todo">To Do</option>
-            <option value="in_progress">In Progress</option>
-            <option value="done">Done</option>
-          </select>
+      <div class="form-row">
+        <div class="field-wrapper">
+          <span class="field-label">Status</span>
+          <mat-form-field appearance="outline" class="custom-field">
+            <mat-select formControlName="status" panelClass="custom-select-panel">
+              <mat-option value="todo">To Do</mat-option>
+              <mat-option value="in_progress">In Progress</mat-option>
+              <mat-option value="done">Done</mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
-        <div class="field">
-          <label>Priority</label>
-          <select formControlName="priority">
-            <option value="low">Low</option>
-            <option value="normal">Normal</option>
-            <option value="high">High</option>
-          </select>
-        </div>
-      </div>
 
-      <div class="field">
-        <label>Description *</label>
-        <textarea formControlName="description" rows="3"></textarea>
-      </div>
-
-      <div class="row">
-        <div class="field">
-          <label>Due Date</label>
-          <input type="date" formControlName="dueDate">
-        </div>
-        <div class="field">
-          <label>Assignee ID</label>
-          <input type="number" formControlName="assigneeId">
+        <div class="field-wrapper">
+          <span class="field-label">Priority</span>
+          <mat-form-field appearance="outline" class="custom-field">
+            <mat-select formControlName="priority" panelClass="custom-select-panel">
+              <mat-option value="low">Low</mat-option>
+              <mat-option value="normal">Normal</mat-option>
+              <mat-option value="high">High</mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
       </div>
 
-      <div class="field">
-        <label>Order Index</label>
-        <input type="number" formControlName="orderIndex">
+      <div class="field-wrapper">
+        <span class="field-label">Description</span>
+        <mat-form-field appearance="outline" class="custom-field textarea-field">
+          <textarea matInput 
+                    formControlName="description" 
+                    placeholder="Add more context..." 
+                    cdkTextareaAutosize
+                    cdkAutosizeMinRows="3"
+                    cdkAutosizeMaxRows="5"></textarea>
+        </mat-form-field>
+      </div>
+
+      <div class="form-row">
+        <div class="field-wrapper">
+          <span class="field-label">Due Date</span>
+          <mat-form-field appearance="outline" class="custom-field">
+            <input matInput type="date" formControlName="dueDate">
+          </mat-form-field>
+        </div>
+        
+        <div class="field-wrapper">
+          <span class="field-label">Assignee ID</span>
+          <mat-form-field appearance="outline" class="custom-field">
+            <mat-icon matPrefix>person_outline</mat-icon>
+            <input matInput type="number" formControlName="assigneeId" placeholder="ID">
+          </mat-form-field>
+        </div>
       </div>
 
       <footer class="modal-actions">
-        <button type="button" class="btn-secondary" (click)="close.emit()" [disabled]="isLoading()">
+        <button type="button" mat-button (click)="close.emit()" class="btn-cancel">
           Cancel
         </button>
-        
-        <button type="submit" class="btn-primary" [disabled]="taskForm.invalid || isLoading()">
-          @if (isLoading()) {
-            <span>Saving...</span> } @else {
-            {{ taskToEdit() ? 'Save Changes' : 'Create Task' }}
-          }
+        <button type="submit" 
+                mat-flat-button 
+                class="btn-submit-exec" 
+                [disabled]="taskForm.invalid || isLoading()">
+          {{ isLoading() ? 'Processing...' : (taskToEdit() ? 'Save Changes' : 'Create Task') }}
         </button>
       </footer>
 

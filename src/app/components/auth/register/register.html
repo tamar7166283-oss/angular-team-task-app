@@ -1,38 +1,65 @@
-<form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-  
-  @if (errorMessage()) {
-    <div class="server-error">
-      {{ errorMessage() }}
+<div class="auth-page">
+  <div class="auth-card">
+   
+    <div class="header-section">
+      <div class="app-logo">
+        <mat-icon>person_add_alt</mat-icon>
+      </div>
+      <h1>Create Account</h1>
+      <p>Join the team and start collaborating</p>
     </div>
-  }
 
-  <div>
-    <label for="name">Full Name</label>
-    <input type="text" id="name" formControlName="name">
-    @if (registerForm.get('name')?.invalid && registerForm.get('name')?.touched) {
-      <small class="error">Name must be at least 2 characters long</small>
+    @if (errorMessage()) {
+      <div class="error-msg">
+        <mat-icon>error_outline</mat-icon>
+        <span>{{ errorMessage() }}</span>
+      </div>
     }
-  </div>
 
-  <div>
-    <label for="email">Email</label>
-    <input type="email" id="email" formControlName="email">
-    @if (registerForm.get('email')?.invalid && registerForm.get('email')?.touched) {
-      <small class="error">Please enter a valid email address</small>
-    }
-  </div>
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="form-container">
+      
+      <div class="field-wrapper">
+        <span class="label">Full Name</span>
+        <mat-form-field appearance="outline" class="custom-field">
+          <input matInput type="text" formControlName="name" placeholder="e.g. John Doe">
+          <mat-icon matPrefix>person_outline</mat-icon>
+          @if (registerForm.get('name')?.invalid && registerForm.get('name')?.touched) {
+            <mat-error>Name must be at least 2 chars</mat-error>
+          }
+        </mat-form-field>
+      </div>
 
-  <div>
-    <label for="password">Password</label>
-    <input type="password" id="password" formControlName="password">
-    @if (registerForm.get('password')?.invalid && registerForm.get('password')?.touched) {
-      <small class="error">Password must be at least 3 characters long</small>
-    }
-  </div>
+      <div class="field-wrapper">
+        <span class="label">Email Address</span>
+        <mat-form-field appearance="outline" class="custom-field">
+          <input matInput type="email" formControlName="email" placeholder="e.g. alex@company.com">
+          <mat-icon matPrefix>mail_outline</mat-icon>
+          @if (registerForm.get('email')?.invalid && registerForm.get('email')?.touched) {
+            <mat-error>Please enter a valid email</mat-error>
+          }
+        </mat-form-field>
+      </div>
 
-  <button type="submit" [disabled]="registerForm.invalid">Register</button>
-</form>
-<p>
-  Already have an account? 
-  <a routerLink="/login">Login here</a>
-</p>
+      <div class="field-wrapper">
+        <span class="label">Password</span>
+        <mat-form-field appearance="outline" class="custom-field">
+          <input matInput type="password" formControlName="password" placeholder="Min. 3 characters">
+          <mat-icon matPrefix>lock_open</mat-icon>
+          @if (registerForm.get('password')?.invalid && registerForm.get('password')?.touched) {
+            <mat-error>Password must be at least 3 chars</mat-error>
+          }
+        </mat-form-field>
+      </div>
+
+      <button mat-flat-button class="submit-button" [disabled]="registerForm.invalid">
+        Create My Account
+        <mat-icon>how_to_reg</mat-icon>
+      </button>
+    </form>
+
+    <div class="footer-links">
+      <span>Already have an account?</span>
+      <a routerLink="/login">Sign in here</a>
+    </div>
+  </div>
+</div>

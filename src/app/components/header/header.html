@@ -1,30 +1,76 @@
+@if (loadingService.isLoading()) {
+  <mat-progress-bar mode="indeterminate" color="primary" class="global-loader"></mat-progress-bar>
+}
+
 <header class="main-header">
-  <div class="nav-section">
-    <span class="logo">TeamTasks</span>
-    <nav>
-      <a routerLink="/projects" routerLinkActive="active">projects</a>
-      <a routerLink="/teams" routerLinkActive="active">teams</a>
-    </nav>
-  </div>
-
-  <div class="actions-section">
-    <button (click)="themeService.toggleTheme()" class="icon-btn">
-      {{ themeService.darkMode() ? '☀️' : '🌙' }}
-    </button>
-
-    <div class="user-profile" (click)="isProfileOpen = !isProfileOpen">
-      <div class="avatar">
-        {{ authService.currentUser()?.name?.[0] }}
+  <div class="header-container">
+    <div class="nav-section">
+      <div class="logo-wrapper" routerLink="/">
+        <div class="logo-icon">
+          <mat-icon>grid_view</mat-icon>
+        </div>
+        <span class="logo-text">Team<span>Tasks</span></span>
       </div>
       
-      @if (isProfileOpen) {
-        <div class="dropdown">
-          <p class="user-name">{{ authService.currentUser()?.name }}</p>
-          <p class="user-email">{{ authService.currentUser()?.email }}</p>
-          <hr>
-          <button (click)="logout()">logout</button>
+      <nav class="main-nav">
+        <a routerLink="/projects" routerLinkActive="active">
+          <mat-icon>assignment</mat-icon>
+          Projects
+        </a>
+        <a routerLink="/teams" routerLinkActive="active">
+          <mat-icon>group</mat-icon>
+          Teams
+        </a>
+      </nav>
+    </div>
+
+    <div class="actions-section">
+      <div class="user-profile-wrapper">
+        <div class="avatar-trigger" (click)="isProfileOpen = !isProfileOpen" [class.active]="isProfileOpen">
+          <div class="avatar-circle">
+            {{ authService.currentUser()?.name?.[0] | uppercase }}
+          </div>
+          <mat-icon class="chevron">expand_more</mat-icon>
         </div>
-      }
+        
+        @if (isProfileOpen) {
+          <div class="profile-dropdown animate-in" (click)="$event.stopPropagation()">
+            <div class="dropdown-header">
+              <p class="user-name">{{ authService.currentUser()?.name }}</p>
+              <p class="user-email">{{ authService.currentUser()?.email }}</p>
+            </div>
+
+            <mat-divider></mat-divider>
+
+            <div class="dropdown-menu">
+              <div class="menu-item-static">
+                <div class="item-label">
+                  <mat-icon>dark_mode</mat-icon>
+                  <span>Dark Mode</span>
+                </div>
+                <mat-slide-toggle 
+                  [checked]="themeService.darkMode()" 
+                  (change)="themeService.toggleTheme()">
+                </mat-slide-toggle>
+              </div>
+
+              <button mat-button class="menu-item">
+                <mat-icon>settings</mat-icon>
+                <span>Account Settings</span>
+              </button>
+            </div>
+
+            <mat-divider></mat-divider>
+
+            <div class="dropdown-footer">
+              <button mat-button class="logout-btn" (click)="logout()">
+                <mat-icon>logout</mat-icon>
+                <span>Sign Out</span>
+              </button>
+            </div>
+          </div>
+        }
+      </div>
     </div>
   </div>
 </header>

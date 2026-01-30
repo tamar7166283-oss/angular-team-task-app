@@ -1,0 +1,235 @@
+/* --- הגדרות הקומפוננטה --- */
+:host {
+  display: block;
+  width: 100%;
+  /* תיקון 1: כרטיס רחב יותר */
+  max-width: 540px; 
+}
+
+/* --- הכרטיס הלבן --- */
+.add-member-card {
+  background-color: #ffffff;
+  padding: 40px; /* ריווח פנימי גדול יותר */
+  border-radius: 28px;
+  /* צללית חזקה להפרדה מהרקע */
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  border: 1px solid #f1f5f9;
+  position: relative;
+  font-family: 'Assistant', sans-serif;
+  overflow: visible; /* חשוב כדי שהצלליות לא ייחתכו */
+}
+
+/* --- כותרת --- */
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 36px;
+}
+
+.title-section {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.icon-box {
+  width: 48px;
+  height: 48px;
+  background-color: #f5f3ff;
+  color: #7b68ee;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-box mat-icon { font-size: 24px; width: 24px; height: 24px; }
+
+.title-section h3 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.close-btn {
+  color: #94a3b8;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.close-btn:hover {
+  background-color: #f1f5f9;
+  color: #ef4444; /* אדום כשעומדים על סגירה */
+  transform: rotate(90deg); /* אנימציה חמודה לסגירה */
+}
+
+/* --- טופס --- */
+.form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.field-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #475569;
+  margin-left: 4px;
+}
+
+/* --- עיצוב אינפוטים (Pill Shape) --- */
+.custom-field {
+  width: 100%;
+}
+
+::ng-deep .custom-field .mat-mdc-text-field-wrapper {
+  height: 54px !important;
+  background-color: #f8fafc !important;
+  border-radius: 16px !important;
+  transition: background-color 0.2s ease;
+}
+
+/* אפקט Hover על האינפוט עצמו */
+::ng-deep .custom-field .mat-mdc-text-field-wrapper:hover {
+  background-color: #f1f5f9 !important;
+}
+
+::ng-deep .custom-field .mat-mdc-form-field-focus-indicator { display: none !important; }
+
+::ng-deep .custom-field .mat-mdc-form-field-flex {
+  height: 54px !important;
+  align-items: center !important;
+}
+
+/* בורדר */
+::ng-deep .custom-field .mdc-notched-outline__leading {
+  border-radius: 16px 0 0 16px !important;
+  border-color: #e2e8f0 !important;
+  width: 12px !important;
+}
+::ng-deep .custom-field .mdc-notched-outline__trailing {
+  border-radius: 0 16px 16px 0 !important;
+  border-color: #e2e8f0 !important;
+}
+::ng-deep .custom-field .mdc-notched-outline__notch {
+  border-color: #e2e8f0 !important;
+}
+
+/* פוקוס סגול */
+::ng-deep .custom-field.mat-focused .mdc-notched-outline__leading,
+::ng-deep .custom-field.mat-focused .mdc-notched-outline__notch,
+::ng-deep .custom-field.mat-focused .mdc-notched-outline__trailing {
+  border-color: #7b68ee !important;
+  border-width: 2px !important;
+}
+
+/* --- תיקון 4: רשימה נפתחת (Select Panel) --- */
+/* זה מכריח את הרשימה להיות לבנה ולא שקופה */
+::ng-deep .mat-mdc-select-panel {
+  background-color: #ffffff !important;
+  border-radius: 16px !important;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15) !important;
+  border: 1px solid #f1f5f9 !important;
+  padding: 8px !important;
+}
+
+::ng-deep .mat-mdc-option {
+  border-radius: 8px !important;
+  margin-bottom: 2px !important;
+  min-height: 44px !important;
+}
+
+::ng-deep .mat-mdc-option:hover {
+  background-color: #f5f3ff !important; /* סגול בהיר בהובר על אופציה */
+}
+
+::ng-deep .mat-mdc-option.mdc-list-item--selected {
+  background-color: #f0eeff !important;
+  color: #7b68ee !important;
+  font-weight: 700 !important;
+}
+
+/* --- הודעות שגיאה --- */
+.error-msg {
+  background-color: #fff1f2;
+  color: #e11d48;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 12px 16px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #fecdd3;
+}
+
+/* --- כפתורים (תיקונים 2 ו-3) --- */
+.actions {
+  display: flex;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.btn-cancel {
+  flex: 1;
+  height: 52px !important;
+  border-radius: 14px !important;
+  color: #64748b !important;
+  border: 1px solid #e2e8f0 !important;
+  font-weight: 600 !important;
+  transition: all 0.2s ease !important;
+}
+
+.btn-cancel:hover {
+  background-color: #f8fafc !important;
+  color: #334155 !important;
+  border-color: #cbd5e0 !important;
+}
+
+.btn-submit {
+  flex: 2;
+  height: 52px !important;
+  border-radius: 14px !important;
+  background-color: #7b68ee !important;
+  color: white !important;
+  font-weight: 700 !important;
+  font-size: 15px !important;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  box-shadow: 0 4px 12px rgba(123, 104, 238, 0.3);
+}
+
+/* תיקון 2: אנימציות לחיצה */
+.btn-submit:hover:not(:disabled) {
+  transform: translateY(-2px); /* עולה למעלה */
+  box-shadow: 0 8px 20px rgba(123, 104, 238, 0.4); /* צללית גדלה */
+  background-color: #6a56e5 !important; /* צבע טיפה כהה יותר */
+}
+
+.btn-submit:active:not(:disabled) {
+  transform: translateY(1px) scale(0.98); /* לחיצה פנימה */
+  box-shadow: 0 2px 5px rgba(123, 104, 238, 0.2);
+}
+
+/* תיקון 3: מצב Disabled ברור */
+.btn-submit:disabled {
+  background-color: #cbd5e1 !important; /* אפור */
+  color: #94a3b8 !important;
+  box-shadow: none !important;
+  cursor: not-allowed !important;
+  transform: none !important;
+}

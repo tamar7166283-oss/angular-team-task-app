@@ -1,0 +1,109 @@
+.task-row {
+  display: flex;
+  align-items: center;
+  padding: 12px 20px;
+  background: white;
+  border-bottom: 1px solid #f1f5f9;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-height: 60px;
+}
+
+.task-row:hover {
+  background-color: #f8fafc;
+  transform: translateX(4px); /* אפקט תזוזה קטן ימינה */
+}
+
+/* סימון המשימה שנבחרה כרגע (פתוחה ב-Sidebar) */
+.active-row {
+  background-color: #f0eeff !important;
+  border-left: 4px solid #7b68ee;
+}
+
+/* עמודה 1: שם וסטטוס */
+.col-name {
+  flex: 2;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.status-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.task-title {
+  font-size: 15px;
+  font-weight: 500;
+  color: #1e293b;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* עמודה 2: Priority */
+.col-status {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.priority-tag {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 6px;
+  letter-spacing: 0.5px;
+}
+
+/* צבעי עדיפות בסגנון ClickUp */
+.priority-tag[data-priority="high"] { background: #fee2e2; color: #ef4444; }
+.priority-tag[data-priority="medium"] { background: #fef3c7; color: #f59e0b; }
+.priority-tag[data-priority="low"] { background: #dcfce7; color: #22c55e; }
+
+/* עמודה 3: תאריך ופעולות */
+.col-date {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 16px;
+}
+
+.date-text {
+  font-size: 13px;
+  color: #94a3b8;
+}
+
+.actions-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.btn-delete {
+  color: #94a3b8 !important;
+  opacity: 0; /* מוסתר כברירת מחדל */
+  transition: opacity 0.2s ease !important;
+}
+
+.task-row:hover .btn-delete {
+  opacity: 1; /* מופיע רק ב-Hover */
+}
+
+.btn-delete:hover {
+  color: #ef4444 !important;
+}
+
+.chevron {
+  color: #cbd5e1;
+  font-size: 20px;
+}
+
+.task-row:hover .chevron {
+  color: #7b68ee;
+}

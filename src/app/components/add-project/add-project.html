@@ -1,64 +1,59 @@
-<div class="add-project-container">
-  <h3>Create New Project</h3>
-  
-  <form [formGroup]="projectForm" (ngSubmit)="submit()">
+<div class="modal-overlay" (click)="onClose()">
+  <div class="modal-card animate-in" (click)="$event.stopPropagation()">
     
-    <div class="form-control">
-      <label for="projectName">Project Name</label>
-      <input 
-        id="projectName" 
-        type="text" 
-        formControlName="name" 
-        placeholder="Enter project name"
-      >
-
-      @if (projectForm.get('name')?.touched) {
-        @if (projectForm.get('name')?.errors?.['required']) {
-          <p class="error">Project name is required</p>
-        }
-        @if (projectForm.get('name')?.errors?.['minlength']) {
-          <p class="error">Name must be at least 3 characters</p>
-        }
-        @if (projectForm.get('name')?.errors?.['maxlength']) {
-          <p class="error">Name cannot exceed 30 characters</p>
-        }
-      }
-    </div>
-
-    <div class="form-control">
-      <label for="projectDescription">Description</label>
-      <textarea 
-        id="projectDescription" 
-        formControlName="description" 
-        placeholder="Enter project description"
-        rows="3"
-      ></textarea>
-
-      @if (projectForm.get('description')?.touched) {
-        @if (projectForm.get('description')?.errors?.['required']) {
-          <p class="error">Description is required</p>
-        }
-        @if (projectForm.get('description')?.errors?.['maxlength']) {
-          <p class="error">Description cannot exceed 200 characters</p>
-        }
-      }
-    </div>
-
-    @if (errorMessage()) {
-      <div class="alert-error">
-        {{ errorMessage() }}
+    <header class="modal-header">
+      <div class="icon-box">
+        <mat-icon>create_new_folder</mat-icon>
       </div>
-    }
-
-    <div class="form-actions">
-      <button type="submit" [disabled]="projectForm.invalid || isLoading()">
-        {{ isLoading() ? 'Creating...' : 'Create Project' }}
+      <h2>Create New Project</h2>
+      <p>Fill in the details to start a new workspace</p>
+      <button mat-icon-button (click)="onClose()" class="close-x">
+        <mat-icon>close</mat-icon>
       </button>
+    </header>
 
-      <button type="button" (click)="onClose()">
-        Cancel
-      </button>
-    </div>
+    <form [formGroup]="projectForm" (ngSubmit)="submit()" class="modal-form">
+      
+      <div class="field-wrapper">
+        <span class="field-label">Project Name</span>
+        <mat-form-field appearance="outline" class="pill-field">
+          <mat-icon matPrefix>folder_open</mat-icon>
+          <input matInput formControlName="name" placeholder="Enter project name...">
+          @if (projectForm.get('name')?.invalid && projectForm.get('name')?.touched) {
+            <mat-error>Name is required (2-30 chars)</mat-error>
+          }
+        </mat-form-field>
+      </div>
 
-  </form>
+      <div class="field-wrapper">
+        <span class="field-label">Description</span>
+        <mat-form-field appearance="outline" class="pill-field">
+          <mat-icon matPrefix>notes</mat-icon>
+          <textarea matInput formControlName="description" placeholder="What's this project about?" rows="3"></textarea>
+          @if (projectForm.get('description')?.invalid && projectForm.get('description')?.touched) {
+            <mat-error>Description is required</mat-error>
+          }
+        </mat-form-field>
+      </div>
+
+      @if (errorMessage()) {
+        <div class="error-banner">
+          <mat-icon>report_problem</mat-icon>
+          <span>{{ errorMessage() }}</span>
+        </div>
+      }
+
+      <footer class="modal-actions">
+        <button type="button" mat-button (click)="onClose()" class="btn-secondary">
+          Cancel
+        </button>
+        <button type="submit" 
+                mat-flat-button 
+                class="btn-primary-exec" 
+                [disabled]="projectForm.invalid || isLoading()">
+          {{ isLoading() ? 'Creating...' : 'Create Project' }}
+        </button>
+      </footer>
+    </form>
+  </div>
 </div>

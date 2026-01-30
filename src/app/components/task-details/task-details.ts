@@ -1,14 +1,23 @@
-import { Component, computed, inject, input, signal, OnInit } from '@angular/core';
+import { Component, computed, inject, input, signal, OnInit, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TaskService } from '../../services/task-service';
 import { TaskComments } from '../task-comments/task-comments';
 import { TaskForm } from '../task-form/task-form';
 import { RouterLink } from '@angular/router';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { Task } from '../../models/task.model';
+
 
 @Component({
   selector: 'app-task-details',
   standalone: true,
-  imports: [CommonModule, TaskComments, TaskForm, RouterLink],
+  imports: [CommonModule, TaskComments, TaskForm, RouterLink,
+     MatButtonModule, MatIconModule, MatChipsModule,
+      MatDividerModule, MatProgressSpinnerModule],
   templateUrl: './task-details.html',
   styleUrl: './task-details.css',
 })
@@ -17,6 +26,7 @@ export class TaskDetails implements OnInit {
 
   taskId = input.required<string>(); 
   projectId = input.required<string>();
+  edit = output<Task>();
   
   isLoading = signal(false);  
   errorMessage = signal<string | null>(null);
@@ -46,8 +56,14 @@ export class TaskDetails implements OnInit {
     });
   }
 
-  // פונקציית עזר למרה בטוחה של מספרים ב-HTML
   asNumber(val: string) {
     return Number(val);
   }
+
+  onEditClick() {
+    const t = this.task();
+    if (t) {
+      this.edit.emit(t);
+    }
+}
 }

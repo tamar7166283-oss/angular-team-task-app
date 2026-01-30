@@ -3,13 +3,25 @@ import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '../../../services/authService';
 import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
+import { MatFormField } from '@angular/material/form-field';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule,ReactiveFormsModule, CommonModule, RouterLink],
+  imports: [ReactiveFormsModule, CommonModule,ReactiveFormsModule, CommonModule, RouterLink,
+    MatIconModule,
+    MatFormField,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule
+  ],
   templateUrl: './register.html',
-  styleUrl: './register.css',
+  styleUrls: ['../auth_.css', './register.css'],
 })
 export class Register {
   private fb = inject(FormBuilder);
@@ -24,19 +36,21 @@ export class Register {
     password: ['', [Validators.required, Validators.minLength(3)]]
   });
 
-  onSubmit() {
-    if (this.registerForm.valid) {
-      this.errorMessage.set(null); 
-      this.authService.register(this.registerForm.value as any).subscribe({
-        next: () => {
-          console.log("Registration succeed");
-          this.router.navigate(['/teams']);
-        },
-        error: (err) => {
-          console.error("Registration failed", err);
-          this.errorMessage.set("Registration failed. Please try again.");
+onSubmit() {
+  if (this.registerForm.valid) {
+
+    this.authService.register(this.registerForm.value as any).subscribe({
+      next: () => {
+        this.router.navigate(['/login']); 
+      },
+      error: (err) => {
+        if (err.status === 409) { 
+           this.errorMessage.set("Email already exists");
+        } else {
+           this.errorMessage.set("Registration failed");
         }
-      });
-    }
+      }
+    });
   }
+}
 }

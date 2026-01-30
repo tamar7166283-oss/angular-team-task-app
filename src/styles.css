@@ -1,0 +1,26 @@
+/* עיצוב גלובלי לאינפוטים מעוגלים ומודרניים */
+.mat-mdc-text-field-wrapper.mdc-text-field--outlined {
+  .mdc-notched-outline__leading {
+    border-radius: 12px 0 0 12px !important;
+    width: 12px !important;
+  }
+  .mdc-notched-outline__trailing {
+    border-radius: 0 12px 12px 0 !important;
+  }
+  background-color: #f8fafc !important;
+}
+
+/* הגדלת גובה האינפוטים בכל האפליקציה */
+.mat-mdc-form-field-flex {
+  height: 54px !important;
+}
+
+.mat-mdc-form-field-infix {
+  padding-top: 14px !important;
+}
+
+/* ב-styles.css */
+app-task-form {
+  position: absolute;
+  z-index: 99999;
+}

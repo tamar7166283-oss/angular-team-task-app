@@ -1,57 +1,60 @@
-<div class="add-member-wrapper">
-  <h4 class="form-title">הוספת חבר לצוות</h4>
+<div class="add-member-card animate-pop">
+  
+  <div class="card-header">
+    <div class="title-section">
+      <div class="icon-box">
+        <mat-icon>group_add</mat-icon> </div>
+      <h3>Add New Member</h3>
+    </div>
+    <div class="close-btn" (click)="closeAddMember()">
+      <mat-icon>close</mat-icon>
+    </div>
+  </div>
 
-  <form [formGroup]="memberForm" (ngSubmit)="onSubmit()">
+  @if (errorMessage()) {
+    <div class="error-msg">
+      <mat-icon>error_outline</mat-icon>
+      <span>{{ errorMessage() }}</span>
+    </div>
+  }
+
+  <form [formGroup]="memberForm" (ngSubmit)="onSubmit()" class="form-container">
     
-    <div class="form-field">
-      <label for="userId">userId</label>
-      <input 
-       id="userId"
-        type="number" 
-        formControlName="userId" 
-        placeholder="Enter user id"
-        [class.error-border]="memberForm.get('userId')?.invalid && memberForm.get('userId')?.touched"
-      >
-      @if (memberForm.get('userId')?.invalid && memberForm.get('userId')?.touched) {
-        <small class="error-msg">userId is required</small>
-      }
+    <div class="field-wrapper">
+      <label class="label">User ID</label>
+      <mat-form-field appearance="outline" class="custom-field">
+        <mat-icon matPrefix class="input-icon">badge</mat-icon>
+        <input matInput type="number" formControlName="userId" placeholder="Enter user ID (e.g. 1042)">
+      </mat-form-field>
     </div>
 
-    <div class="form-field">
-      <label for="role">role</label>
-      <input 
-      id="role"
-        type="text" 
-        formControlName="role" 
-        [class.error-border]="memberForm.get('role')?.invalid && memberForm.get('role')?.touched"
-      >
-      @if (memberForm.get('role')?.invalid && memberForm.get('role')?.touched) {
-        <small class="error-msg">role is required</small>
-      }
+    <div class="field-wrapper">
+      <label class="label">Assign Role</label>
+      <mat-form-field appearance="outline" class="custom-field">
+        <mat-icon matPrefix class="input-icon">admin_panel_settings</mat-icon>
+        <mat-select formControlName="role" placeholder="Select access level">
+          <mat-option value="member">
+            <mat-icon style="margin-right: 8px; color: #64748b;">person</mat-icon>
+            Member
+          </mat-option>
+          <mat-option value="admin">
+            <mat-icon style="margin-right: 8px; color: #7b68ee;">verified</mat-icon>
+            Admin
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
     </div>
 
-    @if (errorMessage()) {
-      <div class="alert-danger">
-        {{ errorMessage() }}
-      </div>
-    }
-
-    <div class="button-group">
-      <button 
-        type="submit" 
-        class="btn-submit" 
-        [disabled]="memberForm.invalid"
-      >
-        add
+    <div class="actions">
+      <button type="button" mat-stroked-button class="btn-cancel" (click)="closeAddMember()">
+        Cancel
       </button>
-
-      <button 
-        type="button" 
-        class="btn-cancel" 
-        (click)="closeAddMember()"
-      >
-        cancel
+      
+      <button type="submit" mat-flat-button class="btn-submit" [disabled]="memberForm.invalid">
+        Send Invitation
+        <mat-icon style="margin-left: 8px;">send</mat-icon>
       </button>
     </div>
+
   </form>
 </div>

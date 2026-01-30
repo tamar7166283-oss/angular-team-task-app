@@ -1,0 +1,202 @@
+/* --- Header Layout --- */
+.main-header {
+  height: 64px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid #e2e8f0;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+}
+
+.header-container {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* --- Logo & Nav Section --- */
+.nav-section {
+  display: flex;
+  align-items: center;
+}
+
+.logo-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-right: 40px;
+  cursor: pointer;
+}
+
+.logo-icon {
+  background: #7b68ee;
+  color: white;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-text {
+  font-size: 20px;
+  font-weight: 800;
+  color: #1e293b;
+  letter-spacing: -0.5px;
+}
+
+.logo-text span { color: #7b68ee; }
+
+.main-nav {
+  display: flex;
+  gap: 8px;
+}
+
+.main-nav a {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  text-decoration: none;
+  color: #64748b;
+  font-weight: 600;
+  font-size: 14px;
+  border-radius: 10px;
+  transition: all 0.2s ease;
+}
+
+.main-nav a mat-icon { font-size: 18px; width: 18px; height: 18px; }
+
+.main-nav a:hover { background: #f1f5f9; color: #1e293b; }
+
+.main-nav a.active { background: #f0eeff; color: #7b68ee; }
+
+/* --- Profile Trigger --- */
+.actions-section {
+  display: flex;
+  align-items: center;
+}
+
+.user-profile-wrapper { position: relative; }
+
+.avatar-trigger {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 8px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.avatar-trigger:hover, .avatar-trigger.active { background: #f8fafc; }
+
+.avatar-circle {
+  width: 36px; height: 36px;
+  background: #1e293b;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.chevron { font-size: 20px; color: #94a3b8; transition: transform 0.3s; }
+
+.avatar-trigger.active .chevron { transform: rotate(180deg); }
+
+/* --- Dropdown Design --- */
+.profile-dropdown {
+  position: absolute;
+  top: calc(100% + 12px);
+  right: 0;
+  width: 280px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.12);
+  border: 1px solid #e2e8f0;
+  overflow: hidden;
+  padding: 8px 0;
+}
+
+.dropdown-header { padding: 12px 20px; }
+
+.user-name { margin: 0; font-weight: 700; color: #1e293b; font-size: 15px; }
+
+.user-email { margin: 2px 0 0; color: #94a3b8; font-size: 12px; }
+
+.dropdown-menu { padding: 8px; }
+
+.menu-item-static {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  border-radius: 8px;
+}
+
+.item-label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #475569;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.item-label mat-icon { font-size: 20px; color: #94a3b8; }
+
+.menu-item {
+  width: 100% !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  justify-content: flex-start !important;
+  color: #475569 !important;
+  padding: 8px 12px !important;
+  font-weight: 500 !important;
+  border-radius: 8px !important;
+}
+
+.menu-item:hover { background: #f1f5f9 !important; }
+
+.dropdown-footer { padding: 8px; }
+
+.logout-btn {
+  width: 100% !important;
+  color: #f43f5e !important;
+  justify-content: flex-start !important;
+  gap: 12px !important;
+  font-weight: 600 !important;
+  border-radius: 8px !important;
+}
+
+/* --- Utils --- */
+.global-loader {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  z-index: 1001;
+}
+
+::ng-deep .mat-mdc-slide-toggle {
+  --mdc-switch-selected-track-color: #7b68ee;
+}
+
+.animate-in {
+  animation: slideDown 0.25s cubic-bezier(0, 0, 0.2, 1);
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}

@@ -1,12 +1,22 @@
-<div class="mini-task-card" [routerLink]="[task().id]">
-  <div class="task-main-info">
-    <span class="status-indicator" [attr.data-status]="task().status"></span>
+<div class="task-row" [routerLink]="[task().id]" routerLinkActive="active-row">
+  <div class="col-name">
+    <div class="status-dot" [style.background-color]="getStatusColor(task().status)" [matTooltip]="task().status"></div>
     <span class="task-title">{{ task().title }}</span>
   </div>
-  
-<div class="task-meta">
-  <span class="priority-badge" [class]="task().priority">{{ task().priority }}</span>
-  <span class="view-link">Details →</span>
-  <button class="btn-icon-delete" (click)="onDelete($event)">🗑️</button>
-</div>
+
+  <div class="col-status">
+    <span class="priority-tag" [attr.data-priority]="task().priority">
+      {{ task().priority }}
+    </span>
+  </div>
+
+  <div class="col-date">
+    <span class="date-text">{{ task().created_at | date:'MMM dd' }}</span>
+    <div class="actions-wrapper">
+      <button mat-icon-button class="btn-delete" (click)="onDelete($event)" matTooltip="Delete Task">
+        <mat-icon>delete_outline</mat-icon>
+      </button>
+      <mat-icon class="chevron">chevron_right</mat-icon>
+    </div>
+  </div>
 </div>

@@ -1,0 +1,125 @@
+.auth-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f4f7fa; /* רקע אפור-כחלחל עדין */
+  padding: 24px;
+}
+
+.login-box {
+  width: 100%;
+  max-width: 440px;
+  background: #ffffff;
+  padding: 48px 40px;
+  border-radius: 28px; /* כרטיס מעוגל מאוד */
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.04), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
+  border: 1px solid #edf2f7;
+}
+
+.header-section {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.app-logo {
+  color: #7b68ee;
+  background: #f0eeff;
+  width: 60px;
+  height: 60px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+}
+
+h1 {
+  font-size: 26px;
+  font-weight: 800;
+  color: #1a202c;
+  letter-spacing: -0.5px;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.field-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.label {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #4a5568;
+  margin-left: 4px;
+}
+
+/* --- התיקון הקריטי לאינפוטים --- */
+
+/* דריסת הפינות של ה-Outline */
+::v-deep .mat-mdc-text-field-wrapper.mdc-text-field--outlined .mdc-notched-outline__leading,
+::v-deep .mat-mdc-text-field-wrapper.mdc-text-field--outlined .mdc-notched-outline__notch,
+::v-deep .mat-mdc-text-field-wrapper.mdc-text-field--outlined .mdc-notched-outline__trailing {
+  border-color: #e2e8f0 !important;
+  border-width: 1.5px !important;
+}
+
+/* עיגול פינות אמיתי */
+::v-deep .mdc-notched-outline__leading {
+  border-radius: 14px 0 0 14px !important;
+  width: 14px !important;
+}
+
+::v-deep .mdc-notched-outline__trailing {
+  border-radius: 0 14px 14px 0 !important;
+}
+
+/* שינוי הרקע ב-Focus */
+::v-deep .mat-mdc-form-field.mat-focused .mdc-notched-outline__leading,
+::v-deep .mat-mdc-form-field.mat-focused .mdc-notched-outline__notch,
+::v-deep .mat-mdc-form-field.mat-focused .mdc-notched-outline__trailing {
+  border-color: #7b68ee !important;
+  border-width: 2px !important;
+}
+
+/* גובה האינפוט */
+::v-deep .mat-mdc-text-field-wrapper {
+  height: 52px !important;
+  background-color: #f8fafc !important;
+}
+
+/* --- כפתור ופוטר --- */
+
+.submit-button {
+  background-color: #7b68ee !important;
+  height: 52px !important;
+  border-radius: 14px !important;
+  font-weight: 700 !important;
+  margin-top: 12px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.submit-button:hover:not([disabled]) {
+  box-shadow: 0 10px 15px -3px rgba(123, 104, 238, 0.4) !important;
+  transform: translateY(-1px);
+}
+
+.footer-links {
+  margin-top: 28px;
+  text-align: center;
+  font-size: 14px;
+  color: #718096;
+}
+
+.footer-links a {
+  color: #7b68ee;
+  font-weight: 700;
+  text-decoration: none;
+  margin-left: 5px;
+}

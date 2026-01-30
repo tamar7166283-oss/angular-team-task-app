@@ -1,38 +1,52 @@
 <div class="tasks-layout">
-  <div class="tasks-wrapper">
-    <header class="tasks-header">
-      <div class="header-content">
-        <h2>Project Tasks #{{ projectId() }}</h2>
-        <button class="btn-add" (click)="openAddModal()">
-          + Add New Task
-        </button>
+  <main class="tasks-main-content">
+    <header class="tasks-page-header">
+      <div class="header-info">
+        <div class="breadcrumb">Projects / #{{ projectId() }}</div>
+        <h1>Project Roadmap</h1>
       </div>
+      <button mat-flat-button class="btn-executive-add" (click)="openAddModal()">
+        <mat-icon>add</mat-icon>
+        New Task
+      </button>
     </header>
 
-    @if (isLoading()) {
-      <div class="status-message loading">
-        <div class="spinner"></div>
-        <p>Loading tasks...</p>
-      </div>
-    } @else if (errorMessage()) {
-      <div class="status-message error">
-        <p>{{ errorMessage() }}</p>
-        <button (click)="loadData()" class="btn-retry">Try Again</button>
-      </div>
-    } @else {
-      <div class="tasks-container">
-        @for (task of tasks(); track task.id) {
-          <app-task-item 
-            [task]="task"
-            (delete)="handleDelete($event)">
-          </app-task-item>
-        } @empty {
-          <div class="status-message empty">
-            <p>No tasks found. Start by adding one!</p>
+    <mat-divider></mat-divider>
+
+    <div class="content-scrollable">
+      @if (isLoading()) {
+        <div class="status-container">
+          <mat-spinner diameter="40"></mat-spinner>
+          <p>Syncing tasks...</p>
+        </div>
+      } @else if (errorMessage()) {
+        <div class="status-container error">
+          <mat-icon>error_outline</mat-icon>
+          <p>{{ errorMessage() }}</p>
+          <button mat-stroked-button (click)="loadData()">Retry</button>
+        </div>
+      } @else {
+        <div class="tasks-list-container">
+          <div class="list-header-row">
+            <span class="col-name">Task Name</span>
+            <span class="col-status">Status</span>
+            <span class="col-date">Created</span>
           </div>
-        }
-      </div>
-    }
+
+          @for (task of tasks(); track task.id) {
+            <app-task-item 
+              [task]="task"
+              (delete)="handleDelete($event)">
+            </app-task-item>
+          } @empty {
+            <div class="empty-state">
+              <mat-icon>assignment_late</mat-icon>
+              <p>No tasks found. Start by adding one!</p>
+            </div>
+          }
+        </div>
+      }
+    </div>
 
     @if (isModalOpen()) {
       <app-task-form 
@@ -41,9 +55,23 @@
         (close)="isModalOpen.set(false)">
       </app-task-form>
     }
-  </div>
+  </main>
 
-  <aside class="task-details-sidebar">
-    <router-outlet></router-outlet>
-  </aside>
+<aside class="task-details-sidebar">
+  <div class="sidebar-inner">
+    <router-outlet 
+      (activate)="onChildActivated($event)" 
+      (deactivate)="onChildDeactivated()">
+    </router-outlet>
+    
+    </div>
+</aside>
+
+@if (isModalOpen()) {
+  <app-task-form 
+    [projectId]="numericProjectId()"
+    [taskToEdit]="taskToEdit()" 
+    (close)="isModalOpen.set(false)">
+  </app-task-form>
+}
 </div>

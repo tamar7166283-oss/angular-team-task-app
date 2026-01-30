@@ -1,68 +1,99 @@
-<div class="details-sidebar">
-  <header class="sidebar-header">
-    <button class="btn-close" [routerLink]="['/projects', projectId(), 'tasks']">✕</button>
+<div class="details-container">
+  <header class="details-header">
+    <div class="header-nav">
+      <span class="task-id-tag">TASK-{{ taskId() }}</span>
+      <button mat-icon-button class="btn-close-sidebar" [routerLink]="['/projects', projectId(), 'tasks']">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
   </header>
 
-  @if (isLoading()) {
-    <div class="status-message loading">
-      <div class="spinner"></div>
-      <p>Fetching task details...</p>
-    </div>
-  }
-
-  @else if (errorMessage()) {
-    <div class="status-message error">
-      <p>{{ errorMessage() }}</p>
-      <button (click)="loadRequiredData()" class="btn-retry">Try Again</button>
-    </div>
-  }
-
-  @else if (task(); as t) {
-    <article class="task-detail-content">
-      <div class="task-main-info">
-        <div class="status-row">
-          <span class="status-badge" [attr.data-status]="t.status">{{ t.status }}</span>
-          <span class="priority-tag" [class]="t.priority">{{ t.priority }} priority</span>
-        </div>
-        <h2>{{ t.title }}</h2>
+  <div class="details-body">
+    @if (isLoading()) {
+      <div class="center-state">
+        <mat-spinner diameter="32"></mat-spinner>
+        <p>Syncing details...</p>
       </div>
-
-      <div class="detail-section">
-        <label>Description</label>
-        <p class="description-text">{{ t.description || 'No description provided.' }}</p>
-      </div>
-
-      <div class="detail-item">
-  <label>Due Date:</label>
-  <span>{{ task()?.due_date | date:'dd/MM/yyyy' }}</span>
-</div>
-
-      <button class="btn-edit-full" (click)="isEditModalOpen.set(true)">
-        Edit Task Details
-      </button>
-
-      <hr class="divider">
-
-      <section class="comments-area">
-        <app-task-comments [taskId]="t.id"></app-task-comments>
-      </section>
-    </article>
-
-    @if (isEditModalOpen()) {
-      <app-task-form 
-        [projectId]="asNumber(projectId())"
-        [taskToEdit]="t"
-        (close)="isEditModalOpen.set(false)">
-      </app-task-form>
     }
-  }
 
-  @else {
-    <div class="status-message empty">
-      <p>Task #{{ taskId() }} not found.</p>
-      <button [routerLink]="['/projects', projectId(), 'tasks']" class="btn-back">
-        Back to list
-      </button>
-    </div>
-  }
+    @else if (errorMessage()) {
+      <div class="center-state error">
+        <mat-icon>cloud_off</mat-icon>
+        <p>{{ errorMessage() }}</p>
+        <button mat-stroked-button color="warn" (click)="loadRequiredData()">Retry Connection</button>
+      </div>
+    }
+
+    @else if (task(); as t) {
+      <article class="task-main-view animate-in">
+        <div class="badges-row">
+          <span class="status-pill" [attr.data-status]="t.status">
+            {{ t.status }}
+          </span>
+          <span class="priority-indicator" [class]="t.priority">
+            <mat-icon>flag</mat-icon>
+            {{ t.priority }}
+          </span>
+        </div>
+
+        <h2 class="task-full-title">{{ t.title }}</h2>
+
+        <div class="metadata-grid">
+          <div class="meta-box">
+            <span class="meta-label">DUE DATE</span>
+            <div class="meta-value">
+              <mat-icon>calendar_today</mat-icon>
+              {{ t.due_date ? (t.due_date | date:'MMM dd, yyyy') : 'No due date' }}
+            </div>
+          </div>
+          <div class="meta-box">
+            <span class="meta-label">PROJECT</span>
+            <div class="meta-value">#{{ projectId() }}</div>
+          </div>
+        </div>
+
+        <div class="meta-box">
+  <span class="meta-label">ASSIGNEE</span>
+  <div class="meta-value">
+    <mat-icon>person</mat-icon>
+    {{ t.assignee_id ? 'User #' + t.assignee_id : 'Unassigned' }}
+  </div>
+</div>
+        <mat-divider></mat-divider>
+
+        
+
+        <section class="info-section">
+          <div class="section-header">
+            <mat-icon>notes</mat-icon>
+            <h3>Description</h3>
+          </div>
+          <p class="description-box">
+            {{ t.description || 'Provide more details about this task...' }}
+          </p>
+          <button mat-button class="btn-quick-edit" (click)="isEditModalOpen.set(true)">
+            <mat-icon>edit</mat-icon> Edit Full Details
+          </button>
+        </section>
+
+        <mat-divider></mat-divider>
+
+        <section class="comments-section">
+          <div class="section-header">
+            <mat-icon>chat_bubble_outline</mat-icon>
+            <h3>Activity & Comments</h3>
+          </div>
+          <app-task-comments [taskId]="t.id"></app-task-comments>
+        </section>
+      </article>
+
+      @if (isEditModalOpen()) {
+        <app-task-form 
+          [projectId]="asNumber(projectId())"
+          [taskToEdit]="t"
+          (close)="isEditModalOpen.set(false)">
+        </app-task-form>
+      }
+    }
+  </div>
 </div>

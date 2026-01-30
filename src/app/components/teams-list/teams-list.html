@@ -1,43 +1,84 @@
-<div class="teams-container">
-  <h1>my teams</h1>
+<div class="page-container">
+  
+  <header class="page-header animate-up">
+    <div class="title-section">
+      <h1>My Teams</h1>
+      <p>Active workspaces</p>
+    </div>
+    
+    <button mat-flat-button class="create-btn" (click)="showAddTeam.set(true)">
+      <mat-icon>add</mat-icon>
+      New Team
+    </button>
+  </header>
 
   @if (errorMessage()) {
-    <p>{{ errorMessage() }}</p>
-    <button (click)="this.teamsService.loadTeams()">try again</button>
-  }
-
-  <button (click)="showAddTeam.set(true)">+ add new team</button>
-
-  @if (showAddTeam()) {
-    <app-add-team (close)="showAddTeam.set(false)"></app-add-team>
-  }
-
-  @if (selectedTeamId(); as id) {
-    <div class="modal-overlay">
-      <app-add-member 
-        [teamId]="id" 
-        (close)="selectedTeamId.set(null)">
-      </app-add-member>
+    <div class="error-banner">
+      <mat-icon>wifi_off</mat-icon>
+      <span>{{ errorMessage() }}</span>
+      <button mat-button (click)="loadData()">Retry</button>
     </div>
   }
 
-  @if (isLoading()) {
-    <div class="loader">loading....</div>
-  } @else {
+  <div class="teams-grid animate-up-delay">
+    
     @for (team of teamsService.teams(); track team.id) {
-      <div class="card">
-        <h3>{{ team.name }}</h3>
-        <p>Members: {{ team.members_count }}</p>
-        <button [routerLink]="['/teams', team.id, 'projects']" class="btn-primary">
-  View Projects
-</button>
-        <button (click)="selectedTeamId.set(team.id)">Add Member</button>
+      <div class="team-card" [routerLink]="['/teams', team.id, 'projects']">
+        
+        <div class="card-header">
+          <div class="icon-box">
+            <mat-icon>workspaces</mat-icon>
+          </div>
+          <div class="header-content">
+            <h3>{{ team.name }}</h3>
+            <span class="team-id">ID: {{ team.id }}</span>
+          </div>
+          <mat-icon class="arrow-indicator">arrow_forward</mat-icon>
+        </div>
+
+        <div class="card-divider"></div>
+
+        <div class="card-body">
+          <div class="stat-container">
+            <span class="big-number">{{ team.members_count }}</span>
+            <span class="label">Members</span>
+          </div>
+        </div>
+
+        <div class="card-footer">
+          <button mat-stroked-button class="action-btn secondary" 
+                  (click)="$event.stopPropagation(); selectedTeamId.set(team.id)">
+            <mat-icon>person_add</mat-icon>
+            Add Member
+          </button>
+        </div>
+
       </div>
     } 
     @empty {
       @if(!errorMessage()) {
-        <p>there are no teams to show</p>
+        <div class="empty-state">
+          <mat-icon>dashboard</mat-icon>
+          <h3>No teams found</h3>
+          <button mat-stroked-button (click)="showAddTeam.set(true)">Create Team</button>
+        </div>
       }
     }
+  </div>
+
+  @if (showAddTeam()) {
+    <div class="modal-overlay">
+      <div class="modal-content animate-pop">
+        <app-add-team (close)="showAddTeam.set(false)"></app-add-team>
+      </div>
+    </div>
+  }
+
+  @if (selectedTeamId(); as id) {
+    <div class="modal-overlay">
+      <div class="modal-content animate-pop">
+        <app-add-member [teamId]="id" (close)="selectedTeamId.set(null)"></app-add-member>
+      </div>
+    </div>
   }
 </div>
